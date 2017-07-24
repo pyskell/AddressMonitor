@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Types.fs" />
+    <Compile Include="Path.fs" />
     <Compile Include="View.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
@@ -68,6 +69,9 @@
     <Reference Include="mscorlib" />
     <Reference Include="Suave">
       <HintPath>..\packages\Suave.2.1.1\lib\net40\Suave.dll</HintPath>
+    </Reference>
+    <Reference Include="Suave.Experimental">
+      <HintPath>..\packages\Suave.Experimental.2.1.1\lib\net40\Suave.Experimental.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

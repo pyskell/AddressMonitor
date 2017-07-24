@@ -1,0 +1,3 @@
+﻿module Path
+
+let home = "/"
