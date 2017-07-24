@@ -30,3 +30,16 @@ let index container = xmlToString <|
                         ]
 
 let home = [ text "Home" ]
+
+let notFound = [
+    h1 (text "Page not found")
+
+    p [
+        text "Could not find the requested page"
+    ]
+
+    p [
+        text "Back to "
+        aHref Path.home (text "Home")
+    ]
+]

@@ -16,6 +16,8 @@ let addAddress (network:Network, address:Address) =
 let webPart = choose [
                 path Path.home >=> html View.home
                 pathScan Path.addAddress addAddress
+
+                html View.notFound
 ]
 
 [<EntryPoint>]
