@@ -2,7 +2,7 @@
 
 open Microsoft.FSharp.Core
 
-type Network = ETC | ETH | BTC
+type Network = ETC // | ETH | BTC
 
 type Address = {
     Network: Network;
@@ -14,13 +14,14 @@ type User = {
     Email: string;
 }
 
-let validateEthereumAddress (network:Network) (x:string) : bool = 
+// TODO: See if validation can be better, such as hash checking capital letters if present in the string.
+let validateEthereumAddress (x:string) : bool = 
     let len = String.length x
     match len with
     | 40 -> true
     | _ -> false
 
-let validateBitcoinAddress (network:Network) (x:string) : bool =
+let validateBitcoinAddress (x:string) : bool =
     let len = String.length x
     let first = x.Chars(0)
     match (len, first) with
@@ -29,6 +30,18 @@ let validateBitcoinAddress (network:Network) (x:string) : bool =
 
 let validateAddress (network:Network) (x:string) : bool =
     match network with
-    | Network.ETC -> validateEthereumAddress network x
-    | Network.ETH -> validateEthereumAddress network x
-    | Network.BTC -> validateBitcoinAddress network x
+    | Network.ETC -> validateEthereumAddress x
+    //| Network.ETH -> validateEthereumAddress x
+    //| Network.BTC -> validateBitcoinAddress x
+
+// TODO: Improve email validation
+let validateEmail (email:string) : bool =
+    let containsAt = Seq.exists (fun a -> a = '@') email
+    containsAt
+
+// TODO: I think there's a way to put this inside the Address type and use it as the sole constructor
+let makeAddress (network:Network) (x:string) : Address option =
+    if validateAddress network x then
+        Some {Network=network; Address=x}
+    else
+        None
