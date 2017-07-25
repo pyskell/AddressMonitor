@@ -1,6 +1,7 @@
 ﻿module Sql
 
 open System
+open Types
 open FSharp.Data.Sql
 
 [<Literal>]
@@ -32,10 +33,16 @@ let firstOrNone s = s |> Seq.tryFind (fun _ -> true)
 let Users = ctx().Main.Users
 let WalletAddresses = ctx().Main.WalletAddresses
 
-let getUser (ctx : DbContext) (id : int64) : User option = firstOrNone <|
+let addUser (email : string) =
+    Users.Create(email) |> ignore
+
+let addWallet (network : Network) (userId : int64) (address : string) =
+    WalletAddresses.Create(int64 network, userId, address) |> ignore
+
+let getUser (userId : int64) : User option = firstOrNone <|
     query {
         for user in Users do
-            where (user.UserId = id)
+            where (user.UserId = userId)
             select user
     }
 

@@ -1,18 +1,13 @@
 ﻿module Types
 
 open Microsoft.FSharp.Core
-open Utility
 
-type Network = ETC | ETH | BTC with
-    override this.ToString() = toString this
-    static member fromString s = fromString<Network> s
+type Network = ETC = 0 | ETH = 1 | BTC = 2
 
 type Address = {
     Network: Network;
     Address: string;
-} with
-    override this.ToString() = toString this
-    static member fromString s = fromString<Address> s
+}
 
 type User = {
     Address: Address[];
