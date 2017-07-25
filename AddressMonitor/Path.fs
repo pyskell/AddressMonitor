@@ -1,8 +1,5 @@
 ﻿module Path
 
-open Types
-
-
 // TODO: This should be generalizable to an AddressPath where both Network and Address are derived from their underlying types
 type EtcAddressPath = PrintfFormat<(string -> string), unit, string, string, string>
 
