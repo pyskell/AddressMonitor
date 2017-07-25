@@ -21,7 +21,27 @@ type sql = SqlDataProvider<
                 ResolutionPath = resolutionPath, 
                 CaseSensitivityChange = Common.CaseSensitivityChange.ORIGINAL>
 
-let ctx = sql.GetDataContext()
+type DbContext = sql.dataContext
+type User = DbContext.``main.UsersEntity``
+type WalletAddress = DbContext.``main.WalletAddressesEntity``
 
-let users = ctx.Main.Users
-let walletAddress = ctx.Main.WalletAddresses
+let ctx() = sql.GetDataContext()
+
+let firstOrNone s = s |> Seq.tryFind (fun _ -> true)
+
+let Users = ctx().Main.Users
+let WalletAddresses = ctx().Main.WalletAddresses
+
+let getUser (ctx : DbContext) (id : int64) : User option = firstOrNone <|
+    query {
+        for user in Users do
+            where (user.UserId = id)
+            select user
+    }
+
+let getUserWallets (user:User) : WalletAddress list = Seq.toList <|
+    query {
+        for row in WalletAddresses do
+            where (row.UserId = user.UserId)
+            select row
+    }
