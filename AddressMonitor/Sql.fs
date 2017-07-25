@@ -26,12 +26,12 @@ type DbContext = sql.dataContext
 type User = DbContext.``main.UsersEntity``
 type WalletAddress = DbContext.``main.WalletAddressesEntity``
 
-let ctx() = sql.GetDataContext()
+let ctx = sql.GetDataContext()
 
 let firstOrNone s = s |> Seq.tryFind (fun _ -> true)
 
-let Users = ctx().Main.Users
-let WalletAddresses = ctx().Main.WalletAddresses
+let Users = ctx.Main.Users
+let WalletAddresses = ctx.Main.WalletAddresses
 
 let getUserById (userId : int64) : User option = firstOrNone <|
     query {
@@ -54,9 +54,15 @@ let getUserWallets (user:User) : WalletAddress list = Seq.toList <|
             select wallet
     }
 
-let addUser (email : string) : User option =
-    let user = Users.Create(email)
-    Some user
+// TODO: These don't inform the user of whether or not the user exists.
+// May want to reconsider how we handle these functions and notify the user.
+let addUser (email : string) : User =
+    let user = getUserByEmail email
+    match user with
+    | Some u -> u
+    | None ->   let u' = Users.Create(email)
+                ctx.SubmitUpdates()
+                u'
 
 let addWallet (network : Network) (userId : int64) (address : string) =
     let user = getUserById userId
