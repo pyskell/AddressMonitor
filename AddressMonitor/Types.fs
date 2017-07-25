@@ -1,13 +1,19 @@
 ﻿module Types
 
 open Microsoft.FSharp.Core
+open Utility
 
-type Network = ETC // | ETH | BTC
+type Network = ETC with
+    override this.ToString() = toString this
+    static member fromString s = fromString<Network> s
+    // | ETH | BTC
 
 type Address = {
     Network: Network;
     Address: string;
-}
+} with
+    override this.ToString() = toString this
+    static member fromString s = fromString<Address> s
 
 type User = {
     Address: Address[];
@@ -16,7 +22,13 @@ type User = {
 
 // TODO: See if validation can be better, such as hash checking capital letters if present in the string.
 let validateEthereumAddress (x:string) : bool = 
-    let len = String.length x
+    let x' =
+        if String.startsWith "0x" x then
+            x.[2..]
+        else
+            x
+
+    let len = String.length x'
     match len with
     | 40 -> true
     | _ -> false

@@ -11,11 +11,22 @@ let html interior =
     >=> Writers.setMimeType "text/html; charset=utf-8"
 
 let addAddress (network:Network, address:Address) =
-    warbler(fun _ -> html [text "Added album"])
+    choose[
+        GET >=> warbler(fun _ -> html [text "addAddress GET"])
+        POST >=> warbler(fun _ -> html [text "addAddress POST"])
+    ]
+
+let addEtcAddress x = 
+    let valid = validateAddress Network.ETC x
+    if valid then
+        html [text (["valid address added: "; x] |> String.concat "")]
+    else
+        html [text (["invalid address, not added: "; x] |> String.concat "")]
 
 let webPart = choose [
                 path Path.home >=> html View.home
-                pathScan Path.addAddress addAddress
+                pathScan Path.addEtcAddress addEtcAddress
+                //pathScan Path.addAddress addAddress
 
                 html View.notFound
 ]
