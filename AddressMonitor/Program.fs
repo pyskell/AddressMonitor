@@ -4,6 +4,7 @@ open Suave.Filters
 open Suave.Operators
 open Suave.RequestErrors
 open Types
+open Sql
 open Suave.Xml
 
 let html xml = 
@@ -22,10 +23,15 @@ let addEtcAddress x =
         html [text (["valid address added: "; x] |> String.concat "")]
     else
         html [text (["invalid address, not added: "; x] |> String.concat "")]
+    
+let addUser user =
+    Sql.addUser user |> ignore
+    html [text "added user"]
 
 let webPart = choose [
                 path Path.home >=> html View.home
                 pathScan Path.addEtcAddress addEtcAddress
+                pathScan Path.addUser addUser
                 //pathScan Path.addAddress addAddress
 
                 html View.notFound

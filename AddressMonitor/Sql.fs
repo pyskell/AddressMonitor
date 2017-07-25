@@ -33,22 +33,33 @@ let firstOrNone s = s |> Seq.tryFind (fun _ -> true)
 let Users = ctx().Main.Users
 let WalletAddresses = ctx().Main.WalletAddresses
 
-let addUser (email : string) =
-    Users.Create(email) |> ignore
-
-let addWallet (network : Network) (userId : int64) (address : string) =
-    WalletAddresses.Create(int64 network, userId, address) |> ignore
-
-let getUser (userId : int64) : User option = firstOrNone <|
+let getUserById (userId : int64) : User option = firstOrNone <|
     query {
         for user in Users do
             where (user.UserId = userId)
             select user
     }
 
+let getUserByEmail (email : string) : User option = firstOrNone <|
+    query{
+        for user in Users do
+            where (user.Email = email)
+            select user
+    }
+    
 let getUserWallets (user:User) : WalletAddress list = Seq.toList <|
     query {
-        for row in WalletAddresses do
-            where (row.UserId = user.UserId)
-            select row
+        for wallet in WalletAddresses do
+            where (wallet.UserId = user.UserId)
+            select wallet
     }
+
+let addUser (email : string) : User option =
+    let user = Users.Create(email)
+    Some user
+
+let addWallet (network : Network) (userId : int64) (address : string) =
+    let user = getUserById userId
+    match user with
+    | Some _ -> WalletAddresses.Create(int64 network, userId, address) |> ignore
+    | None -> ()
