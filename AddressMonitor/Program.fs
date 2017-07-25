@@ -10,11 +10,11 @@ let html xml =
     OK (View.index xml)
     >=> Writers.setMimeType "text/html; charset=utf-8"
 
-let addAddress (network:Network, address:Address) =
-    choose[
-        GET >=> warbler(fun _ -> html [text "addAddress GET"])
-        POST >=> warbler(fun _ -> html [text "addAddress POST"])
-    ]
+//let addAddress (network:Network, address:Address) =
+//    choose[
+//        GET >=> warbler(fun _ -> html [text "addAddress GET"])
+//        POST >=> warbler(fun _ -> html [text "addAddress POST"])
+//    ]
 
 let addEtcAddress x = 
     let valid = validateAddress Network.ETC x
