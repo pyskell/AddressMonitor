@@ -3,10 +3,9 @@
 open Microsoft.FSharp.Core
 open Utility
 
-type Network = ETC with
+type Network = ETC | ETH | BTC with
     override this.ToString() = toString this
     static member fromString s = fromString<Network> s
-    // | ETH | BTC
 
 type Address = {
     Network: Network;
@@ -43,8 +42,8 @@ let validateBitcoinAddress (x:string) : bool =
 let validateAddress (network:Network) (x:string) : bool =
     match network with
     | Network.ETC -> validateEthereumAddress x
-    //| Network.ETH -> validateEthereumAddress x
-    //| Network.BTC -> validateBitcoinAddress x
+    | Network.ETH -> validateEthereumAddress x
+    | Network.BTC -> validateBitcoinAddress x
 
 // TODO: Improve email validation
 let validateEmail (email:string) : bool =

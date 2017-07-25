@@ -6,8 +6,8 @@ open Suave.RequestErrors
 open Types
 open Suave.Xml
 
-let html interior = 
-    OK (View.index interior)
+let html xml = 
+    OK (View.index xml)
     >=> Writers.setMimeType "text/html; charset=utf-8"
 
 let addAddress (network:Network, address:Address) =
