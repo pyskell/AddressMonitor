@@ -64,8 +64,16 @@ let addUser (email : string) : User =
                 ctx.SubmitUpdates()
                 u'
 
-let addWallet (network : Network) (userId : int64) (address : string) =
+// The use of validAddress here feels more procedural than functional
+let addWallet (network : Network) (userId : int64) (address : string) : WalletAddress option =
     let user = getUserById userId
-    match user with
-    | Some _ -> WalletAddresses.Create(int64 network, userId, address) |> ignore
-    | None -> ()
+
+    let validAddress = validateAddress network address
+    if validAddress then
+        match user with
+        | Some _ -> let wallet = WalletAddresses.Create(int64 network, userId, address)
+                    ctx.SubmitUpdates()
+                    Some wallet
+        | None -> None
+    else
+        None

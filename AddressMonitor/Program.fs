@@ -23,15 +23,29 @@ let addEtcAddress x =
         html [text (["valid address added: "; x] |> String.concat "")]
     else
         html [text (["invalid address, not added: "; x] |> String.concat "")]
-    
+
+// TODO: Handle the implicitly ignored values here at addUser and addWallet
 let addUser user =
-    Sql.addUser user |> ignore
+    Sql.addUser user
     html [text "added user"]
+
+let addWallet network userId address =
+    let network' = enum<Network>(int32 network)
+    let user' = getUserById <| int64 userId
+    match user' with
+    | Some u -> Sql.addWallet network' u.UserId address
+                html [text "added wallet"]
+    | None -> html [text "user does not exist"]
+    
+let disallowGet f = choose [
+    GET >=> html [text "Send request via POST"]
+    POST >=> f
+]
 
 let webPart = choose [
                 path Path.home >=> html View.home
-                pathScan Path.addEtcAddress addEtcAddress
-                pathScan Path.addUser addUser
+                disallowGet <| pathScan Path.addEtcAddress addEtcAddress
+                disallowGet <| pathScan Path.addUser addUser
                 //pathScan Path.addAddress addAddress
 
                 html View.notFound
