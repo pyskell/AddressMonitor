@@ -4,6 +4,7 @@ open System
 open Types
 open FSharp.Data.Sql
 open System.Security.Cryptography
+open System.Text
 
 [<Literal>]
 let connectionString = 
@@ -55,13 +56,14 @@ let getUserWallets (user:User) : WalletAddress list = Seq.toList <|
             select wallet
     }
 
+
 // TODO: These don't inform the user of whether or not the user exists.
 // May want to reconsider how we handle these functions and notify the user.
-let addUser (email : string) (password : byte[]) : User option =
+let addUser (email : string) (password : string) : User option =
     let user = getUserByEmail email
     match user with
     | Some u -> None // User already exists
-    | None ->   let password' = SHA256Managed.Create().ComputeHash(password)
+    | None ->   let password' = Convert.ToBase64String(SHA256Managed.Create().ComputeHash(Encoding.ASCII.GetBytes(password)))
                 let u' = Users.Create(email, password')
                 ctx.SubmitUpdates()
                 Some u'

@@ -29,7 +29,7 @@ let addEtcAddress x =
 
 // TODO: Handle the implicitly ignored values here at addUser and addWallet
 let addUser (request : AddUserRequest) =
-    let password = Encoding.ASCII.GetBytes(request.Password)
+    let password = request.Password
     Sql.addUser request.Email password
     html [text "added user"]
 
