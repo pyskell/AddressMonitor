@@ -87,7 +87,7 @@
     <None Include="Script.fsx" />
     <None Include="App.config" />
     <Content Include="packages.config" />
-    <Compile Include="FsUnitSample.fs" />
+    <Compile Include="SqlTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FsCheck">
