@@ -49,7 +49,7 @@ let getUserByEmail (email : string) : User option = firstOrNone <|
             select user
     }
     
-let getUserWallets (user:User) : WalletAddress list = Seq.toList <|
+let getUserWallets (user : User) : WalletAddress list = Seq.toList <|
     query {
         for wallet in WalletAddresses do
             where (wallet.UserId = user.UserId)
@@ -57,13 +57,22 @@ let getUserWallets (user:User) : WalletAddress list = Seq.toList <|
     }
 
 
+let hashString (password : string) : string =
+    Convert.ToBase64String(SHA256Managed.Create().ComputeHash(Encoding.ASCII.GetBytes(password)))
+
+let verifyUser (user : User) (password : string) : bool =
+    let user' = getUserByEmail user.Email
+    match user' with
+    | Some u -> u.Password.Equals(hashString password)
+    | None -> false
+
 // TODO: These don't inform the user of whether or not the user exists.
 // May want to reconsider how we handle these functions and notify the user.
 let addUser (email : string) (password : string) : User option =
     let user = getUserByEmail email
     match user with
     | Some u -> None // User already exists
-    | None ->   let password' = Convert.ToBase64String(SHA256Managed.Create().ComputeHash(Encoding.ASCII.GetBytes(password)))
+    | None ->   let password' = hashString password
                 let u' = Users.Create(email, password')
                 ctx.SubmitUpdates()
                 Some u'
