@@ -88,6 +88,8 @@
     <None Include="App.config" />
     <Content Include="packages.config" />
     <Compile Include="SqlTests.fs" />
+    <Content Include="LICENSE.txt" />
+    <None Include="AddressMonitorTests.licenseheader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FsCheck">

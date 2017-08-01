@@ -1,4 +1,5 @@
-﻿module Path
+﻿// This file is licensed under the terms of the MIT license. Copyright (c) 2017 pyskell
+module Path
 
 // TODO: This should be generalizable to an StringPath where both Network and Address are derived from their underlying types
 // Also maybe string -> string -> string to string[3]?

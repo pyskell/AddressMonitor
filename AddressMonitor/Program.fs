@@ -1,4 +1,5 @@
-﻿open Suave
+﻿// This file is licensed under the terms of the MIT license. Copyright (c) 2017 pyskell
+open Suave
 open Suave.Successful
 open Suave.Filters
 open Suave.Operators

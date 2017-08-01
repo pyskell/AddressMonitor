@@ -1,4 +1,5 @@
-﻿namespace AddressMonitor.AssemblyInfo
+﻿// This file is licensed under the terms of the MIT license. Copyright (c) 2017 pyskell
+namespace AddressMonitor.AssemblyInfo
 
 open System.Reflection
 open System.Runtime.CompilerServices

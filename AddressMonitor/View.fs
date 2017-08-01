@@ -1,4 +1,5 @@
-﻿module View
+﻿// This file is licensed under the terms of the MIT license. Copyright (c) 2017 pyskell
+module View
 open Suave.Html
 open Suave.Xml
 open Suave.Form

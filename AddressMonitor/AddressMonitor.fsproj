@@ -66,6 +66,8 @@
     <None Include="App.config" />
     <Content Include="packages.config" />
     <None Include="create.sql-example" />
+    <None Include="AddressMonitor.licenseheader" />
+    <Content Include="LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">

@@ -1,4 +1,5 @@
-﻿module Sql
+﻿// This file is licensed under the terms of the MIT license. Copyright (c) 2017 pyskell
+module Sql
 
 open System
 open Types

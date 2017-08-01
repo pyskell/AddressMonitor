@@ -1,4 +1,5 @@
-﻿module Types
+﻿// This file is licensed under the terms of the MIT license. Copyright (c) 2017 pyskell
+module Types
 
 open Microsoft.FSharp.Core
 open System.Runtime.Serialization

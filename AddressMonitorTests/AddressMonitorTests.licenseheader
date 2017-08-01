@@ -1,0 +1,13 @@
+﻿extensions: designer.cs generated.cs
+extensions: .cs .cpp .h .fs
+// This file is licensed under the terms of the MIT license. Copyright (c) 2017 pyskell
+extensions: .aspx .ascx
+<%-- 
+This file is licensed under the terms of the MIT license. Copyright (c) 2017 pyskell
+--%>
+extensions: .vb
+'This file is licensed under the terms of the MIT license. Copyright (c) 2017 pyskell
+extensions:  .xml .config .xsd
+<!--
+This file is licensed under the terms of the MIT license. Copyright (c) 2017 pyskell
+-->
