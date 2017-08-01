@@ -6,6 +6,9 @@ open Suave.RequestErrors
 open Types
 open Sql
 open Suave.Xml
+open Suave.Json
+open System.Runtime.Serialization
+open System.Text
 
 let html xml = 
     OK (View.index xml)
@@ -25,8 +28,9 @@ let addEtcAddress x =
         html [text (["invalid address, not added: "; x] |> String.concat "")]
 
 // TODO: Handle the implicitly ignored values here at addUser and addWallet
-let addUser user =
-    Sql.addUser user
+let addUser (request : AddUserRequest) =
+    let password = Encoding.ASCII.GetBytes(request.Password)
+    Sql.addUser request.Email password
     html [text "added user"]
 
 let addWallet network userId address =
@@ -37,15 +41,15 @@ let addWallet network userId address =
                 html [text "added wallet"]
     | None -> html [text "user does not exist"]
     
-let disallowGet f = choose [
+let postOnly f = choose [
     GET >=> html [text "Send request via POST"]
     POST >=> f
 ]
 
 let webPart = choose [
                 path Path.home >=> html View.home
-                disallowGet <| pathScan Path.addEtcAddress addEtcAddress
-                disallowGet <| pathScan Path.addUser addUser
+                path Path.addUser >=> mapJson addUser
+                postOnly <| pathScan Path.addEtcAddress addEtcAddress
                 //pathScan Path.addAddress addAddress
 
                 html View.notFound

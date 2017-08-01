@@ -1,6 +1,7 @@
 ﻿module Types
 
 open Microsoft.FSharp.Core
+open System.Runtime.Serialization
 
 type Network = ETC = 0 | ETH = 1 | BTC = 2
 
@@ -12,6 +13,14 @@ type Address = {
 type User = {
     Address: Address[];
     Email: string;
+}
+
+[<DataContract>]
+type AddUserRequest = {
+    [<field: DataMember(Name = "Email")>]
+    Email: string;
+    [<field: DataMember(Name = "Password")>]
+    Password: string;
 }
 
 // TODO: See if validation can be better, such as hash checking capital letters if present in the string.

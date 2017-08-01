@@ -12,5 +12,5 @@ type WalletPath = PrintfFormat<(string -> string -> string -> string), unit, str
 
 let home = "/"
 let addEtcAddress : StringPath = "/add/ETC/%s"
-let addUser : StringPath = "/add/user/%s"
+let addUser = "/add/user"
 let addWallet : WalletPath = "add/wallet/%s/%s/%s"
