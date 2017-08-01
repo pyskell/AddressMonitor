@@ -41,10 +41,10 @@ let addWallet network userId address =
                 html [text "added wallet"]
     | None -> html [text "user does not exist"]
     
-let postOnly f = choose [
-    GET >=> html [text "Send request via POST"]
-    POST >=> f
-]
+//let postOnly f = choose [
+//    GET >=> html [text "Send request via POST"]
+//    POST >=> f
+//]
 
 let webPart : WebPart = choose [
     GET >=> choose [
@@ -52,7 +52,7 @@ let webPart : WebPart = choose [
     ]
     POST >=> choose [
         path Path.addUser >=> mapJson addUser
-        postOnly <| pathScan Path.addEtcAddress addEtcAddress
+        pathScan Path.addEtcAddress addEtcAddress
     ]
 
     html View.notFound
