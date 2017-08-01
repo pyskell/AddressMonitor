@@ -46,13 +46,16 @@ let postOnly f = choose [
     POST >=> f
 ]
 
-let webPart = choose [
-                path Path.home >=> html View.home
-                path Path.addUser >=> mapJson addUser
-                postOnly <| pathScan Path.addEtcAddress addEtcAddress
-                //pathScan Path.addAddress addAddress
+let webPart : WebPart = choose [
+    GET >=> choose [
+        path Path.home >=> html View.home
+    ]
+    POST >=> choose [
+        path Path.addUser >=> mapJson addUser
+        postOnly <| pathScan Path.addEtcAddress addEtcAddress
+    ]
 
-                html View.notFound
+    html View.notFound
 ]
 
 [<EntryPoint>]
