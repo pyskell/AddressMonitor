@@ -56,7 +56,6 @@ let getUserWallets (user : User) : WalletAddress list = Seq.toList <|
             select wallet
     }
 
-
 let hashString (password : string) : string =
     Convert.ToBase64String(SHA256Managed.Create().ComputeHash(Encoding.ASCII.GetBytes(password)))
 

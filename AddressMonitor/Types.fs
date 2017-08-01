@@ -3,15 +3,25 @@
 open Microsoft.FSharp.Core
 open System.Runtime.Serialization
 
-type Network = ETC = 0 | ETH = 1 | BTC = 2
+[<DataContract>]
+type Network =
+    | ETC = 0 
+    | ETH = 1 
+    | BTC = 2
 
+[<DataContract>]
 type Address = {
+    [<field: DataMember(Name = "Network")>]
     Network: Network;
+    [<field: DataMember(Name = "Address")>]
     Address: string;
 }
 
+[<DataContract>]
 type User = {
+    [<field: DataMember(Name = "Address")>]
     Address: Address[];
+    [<field: DataMember(Name = "Email")>]
     Email: string;
 }
 
