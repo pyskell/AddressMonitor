@@ -12,6 +12,6 @@ type WalletPath = PrintfFormat<(string -> string -> string -> string), unit, str
 // Link: https://stackoverflow.com/questions/42737079/is-it-possible-to-create-a-custom-printf-textwriterformat
 
 let home = "/"
-let addEtcAddress : StringPath = "/add/ETC/%s"
+let addAddress = "/add/address"
 let addUser = "/add/user"
 let addWallet : WalletPath = "add/wallet/%s/%s/%s"

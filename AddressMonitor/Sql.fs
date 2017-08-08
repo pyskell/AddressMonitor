@@ -78,7 +78,7 @@ let addUser (email : string) (password : string) : User option =
                 Some u'
 
 // The use of validAddress here feels more procedural than functional
-let addWallet (network : Network) (userId : int64) (address : string) : WalletAddress option =
+let addAddress (network : Network) (userId : int64) (address : string) : WalletAddress option =
     let user = getUserById userId
 
     let validAddress = validateAddress network address

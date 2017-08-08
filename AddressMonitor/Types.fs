@@ -6,10 +6,11 @@ open System.Runtime.Serialization
 
 [<DataContract>]
 type Network =
-    | ETC = 0 
-    | ETH = 1 
-    | BTC = 2
+    | [<EnumMemberAttribute(Value = "ETC")>] ETC = 0 
+    | [<EnumMemberAttribute(Value = "ETH")>] ETH = 1 
+    | [<EnumMemberAttribute(Value = "BTC")>] BTC = 2
 
+//[<KnownType(typeof<Address>)>]
 [<DataContract>]
 type Address = {
     [<field: DataMember(Name = "Network")>]
@@ -33,6 +34,12 @@ type AddUserRequest = {
     [<field: DataMember(Name = "Password")>]
     Password: string;
 }
+
+//let serializeNetwork<'TOut> (x : int) =
+//    enum<Network>(x)
+//
+//let deserializeNetwork<'TIn> (x : Network) =
+//    Network.
 
 // TODO: See if validation can be better, such as hash checking capital letters if present in the string.
 let validateEthereumAddress (x:string) : bool = 
